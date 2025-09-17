@@ -1,24 +1,5 @@
 import type { Request, Response } from "express";
 import Course, { ICourse } from "../models/course";
-import z from "zod";
-
-const courseSchema = z.object({
-  title: z
-    .string()
-    .trim()
-    .min(1, "Title is required")
-    .max(50, "Title is too long (max 50 characters)"),
-  description: z
-    .string()
-    .trim()
-    .min(1, "Description is required")
-    .max(100, "Description is too long (max 100 characters)"),
-  content: z
-    .string()
-    .trim()
-    .min(1, "Content is required")
-    .max(1000, "Content is too long (max 1000 characters)"),
-});
 
 export const courseController = {
   getAllCourses: async (req: Request, res: Response) => {
@@ -46,12 +27,6 @@ export const courseController = {
   },
   createCourse: async (req: Request, res: Response) => {
     try {
-      const parseResult = courseSchema.safeParse(req.body);
-      if (!parseResult.success) {
-        res.status(400).json(parseResult.error.format());
-        return;
-      }
-
       const { title, description, content, user } = req.body;
       const course = new Course({
         title,
@@ -68,12 +43,6 @@ export const courseController = {
     }
   },
   updateCourse: async (req: Request, res: Response) => {
-    const parseResult = courseSchema.safeParse(req.body);
-    if (!parseResult.success) {
-      res.status(400).json(parseResult.error.format());
-      return;
-    }
-
     try {
       const courseId = req.params.id;
       const { title, description, content, user } = req.body;

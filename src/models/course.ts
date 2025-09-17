@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Model, Schema } from "mongoose";
 
 export interface ICourse extends Document {
   title: string;
@@ -27,6 +27,7 @@ const courseSchema: Schema = new Schema({
 });
 
 const Course =
-  mongoose.models.Course || mongoose.model<ICourse>("Course", courseSchema);
+  (mongoose.models.Course as Model<ICourse>) ??
+  mongoose.model<ICourse>("Course", courseSchema);
 
 export default Course;
