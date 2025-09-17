@@ -26,7 +26,6 @@ const courseSchema: Schema = new Schema({
   },
 });
 
-//const Course = mongoose.model("User", courseSchema);
 const Course =
   mongoose.models.Course || mongoose.model<ICourse>("Course", courseSchema);
 

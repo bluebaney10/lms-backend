@@ -23,7 +23,8 @@ const courseSchema = z.object({
 export const courseController = {
   getAllCourses: async (req: Request, res: Response) => {
     try {
-      const courses: ICourse[] = await Course.find();
+      const userId = req.params.id;
+      const courses: ICourse[] = await Course.find({ user: userId });
       res.status(200).json(courses);
     } catch (error) {
       console.error("Error fetching Course data:", error);
